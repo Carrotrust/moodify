@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌈 Moodify
 
-## Getting Started
+Moodify is a mood-tracking web application built with **Next.js** and **Firebase**. It allows users to log their daily moods using one of five emoji-based mood options. The goal is to help users reflect on their emotional patterns over time.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- ✅ User authentication with Firebase
+- 📅 Daily mood logging with 5 distinct moods
+- 📊 Calendar-based mood visualization
+- 🔐 Secure, per-user mood tracking
+- 📁 Real-time database updates with Firebase Firestore
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: Next.js (React, Server-Side Rendering)
+- **Database & Auth**: Firebase (Authentication, Firestore)
+- **Styling**: Tailwind CSS
+- **Icons/Emojis**: Emoji-based UI for mood input
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🧠 How It Works
 
-## Deploy on Vercel
+1. User signs in with their  email.
+2. Once authenticated, they're presented with a calendar view.
+3. For each day, they can select one of five moods.
+4. Moods are stored in Firestore and retrieved per user.
+5. Each day is styled based on the mood selected.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🤝 Contributing
+Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to change or add.
+
+
+
