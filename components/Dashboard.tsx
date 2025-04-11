@@ -3,7 +3,7 @@ import { Fugaz_One } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import Calender from "./Calender";
 import { useAuth } from "@/context/authContext";
-import { doc, setDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { db } from "@/firebase";
 import Login from "./Login";
 import Loading from "./Loading";
@@ -27,7 +27,7 @@ const Dashboard = () => {
   const auth = useAuth();
 
   if (!auth) {
-    return null;
+    return <Loading />;
   }
   const { currentUser, userDataObject, setUserDataObject, loading } = auth;
 
@@ -98,7 +98,6 @@ const Dashboard = () => {
       // update global state
       setUserDataObject(newData);
       // update firebase
-      const docRef = doc(db, "users", currentUser.uid);
     } catch (err) {
       console.log(err);
     }
