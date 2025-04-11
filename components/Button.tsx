@@ -5,7 +5,7 @@ interface ButtonProps {
   text: string;
   dark?: boolean;
   full?: boolean;
-  clickHandler: () => void;
+  clickHandler?: () => void;
 }
 
 const fugaz = Fugaz_One({

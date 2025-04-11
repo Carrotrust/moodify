@@ -18,7 +18,7 @@ type MoodData = {
 
 interface CalendarProps {
   demo: boolean;
-  completeData: MoodData | null;
+  completeData?: MoodData | null;
   handleUpdate?: (mood: string | number) => Promise<void>;
 }
 

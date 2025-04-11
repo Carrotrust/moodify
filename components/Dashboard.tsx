@@ -3,8 +3,6 @@ import { Fugaz_One } from "next/font/google";
 import React, { useEffect, useState } from "react";
 import Calender from "./Calender";
 import { useAuth } from "@/context/authContext";
-import { doc } from "firebase/firestore";
-import { db } from "@/firebase";
 import Login from "./Login";
 import Loading from "./Loading";
 
@@ -26,19 +24,20 @@ const Dashboard = () => {
 
   const auth = useAuth();
 
-  if (!auth) {
-    return <Loading />;
-  }
-  const { currentUser, userDataObject, setUserDataObject, loading } = auth;
+  const currentUser = auth?.currentUser ?? null;
+  const userDataObject = auth?.userDataObject ?? null;
+  const loading = auth?.loading ?? true;
+  const setUserDataObject = auth?.setUserDataObject ?? (() => {});
 
   useEffect(() => {
-    if (!currentUser || !userDataObject) {
-      return;
+    if (currentUser && userDataObject) {
+      setData(userDataObject);
     }
-
-    setData(userDataObject);
   }, [currentUser, userDataObject]);
 
+  if (!auth) return <Loading />;
+  if (loading) return <Loading />;
+  if (!currentUser) return <Login />;
   const now = new Date();
 
   const countValues = () => {
