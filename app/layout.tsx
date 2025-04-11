@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fugaz_One, Geist, Geist_Mono, Inter } from "next/font/google";
+import { Fugaz_One, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { AuthProvider } from "@/context/authContext";
@@ -8,10 +8,6 @@ import Logout from "@/components/Logout";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
   subsets: ["latin"],
 });
 

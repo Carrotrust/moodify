@@ -22,32 +22,41 @@ type MoodData = {
 };
 
 const Dashboard = () => {
+  const [data, setData] = useState<MoodData | null>(null);
+
   const auth = useAuth();
 
   if (!auth) {
     return null;
   }
   const { currentUser, userDataObject, setUserDataObject, loading } = auth;
-  const [data, setData] = useState<MoodData | null>(null);
+
+  useEffect(() => {
+    if (!currentUser || !userDataObject) {
+      return;
+    }
+
+    setData(userDataObject);
+  }, [currentUser, userDataObject]);
 
   const now = new Date();
 
   const countValues = () => {
     let totalNumberOfDays = 0;
     let sumMoods = 0;
-    for (let year in data) {
+    for (const year in data) {
       // Cast the year to a number
       const numYear = Number(year);
 
-      for (let month in data[numYear]) {
+      for (const month in data[numYear]) {
         // Cast the month to a number
         const numMonth = Number(month);
 
-        for (let day in data[numYear][numMonth]) {
+        for (const day in data[numYear][numMonth]) {
           // Cast the day to a number
           const numDay = Number(day);
 
-          let daysMood = data[numYear][numMonth][numDay];
+          const daysMood = data[numYear][numMonth][numDay];
           totalNumberOfDays++;
           sumMoods += parseInt(daysMood);
         }
@@ -59,11 +68,11 @@ const Dashboard = () => {
     };
   };
 
-  const statuses: Record<string, any> = {
+  const statuses: Record<string, string | number> = {
     ...countValues(),
     timeRemaining: `${23 - now.getHours()}H  ${60 - now.getMinutes()}M`,
   };
-  const handleUpdate = async (mood: any) => {
+  const handleUpdate = async (mood: string | number) => {
     const day = now.getDate();
     const month = now.getMonth();
     const year = now.getFullYear();
@@ -83,54 +92,25 @@ const Dashboard = () => {
         newData[year][month] = {};
       }
 
-      newData[year][month][day] = mood;
+      newData[year][month][day] = mood as string;
       //update current state
       setData(newData);
       // update global state
       setUserDataObject(newData);
       // update firebase
       const docRef = doc(db, "users", currentUser.uid);
-      const res = await setDoc(
-        docRef,
-        {
-          [year]: {
-            [month]: {
-              [day]: mood,
-            },
-          },
-        },
-        { merge: true }
-      );
     } catch (err) {
       console.log(err);
     }
   };
 
-  const moods: Record<string, any> = {
+  const moods: Record<string, string> = {
     "&*#@$": "😭",
     "Sad ": "🥲",
     "Existing ": "😶",
     " Good ": "😊",
     " Elated ": "😍",
   };
-
-  useEffect(() => {
-    if (!currentUser || !userDataObject) {
-      return;
-    }
-
-    setData(userDataObject);
-  }, [currentUser, userDataObject]);
-
-  // let children = <Login />;
-
-  // if (loading) {
-  //   children = <Loading />;
-  // }
-
-  // if (currentUser) {
-  //   children = <Dashboard />;
-  // }
 
   if (loading) {
     return <Loading />;
@@ -185,8 +165,7 @@ const Dashboard = () => {
           );
         })}
       </div>
-      <Calender completeData={data} handleUpdate={handleUpdate} />
-      <div className="ml-"></div>
+      <Calender completeData={data} handleUpdate={handleUpdate} demo={false} />
     </div>
   );
 };

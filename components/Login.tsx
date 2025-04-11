@@ -53,14 +53,15 @@ const Login = () => {
         await logIn(email, password);
       }
       router.push("/dashboard");
-    } catch (err: any) {
-      if (err.code === "auth/user-not-found") {
+    } catch (err: unknown) {
+      const error = err as { code?: string; message?: string };
+      if (error.code === "auth/user-not-found") {
         setError("User not found. Please sign up first.");
-      } else if (err.code === "auth/wrong-password") {
+      } else if (error.code === "auth/wrong-password") {
         setError("Incorrect password.");
-      } else if (err.code === "auth/email-already-in-use") {
+      } else if (error.code === "auth/email-already-in-use") {
         setError("Email is already in use.");
-      } else if (err.code === "auth/invalid-email") {
+      } else if (error.code === "auth/invalid-email") {
         setError("Invalid email format.");
       } else {
         setError("Something went wrong. Try again.");
@@ -75,7 +76,7 @@ const Login = () => {
       <h3 className={`text-3xl md:text-5xl ${fugaz.className}`}>
         {isRegister ? " Register" : "Log in "}
       </h3>
-      <p>You're one step away!</p>
+      <p>You&rsquo;re one step away!</p>
       <input
         value={email}
         onChange={(e) => setEmail(e.target.value)}

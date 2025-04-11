@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { gradients, baseRating, demoData } from "@/utils/index";
+import { gradients, baseRating } from "@/utils/index";
 import { Fugaz_One } from "next/font/google";
 
 const fugaz = Fugaz_One({
@@ -8,8 +8,22 @@ const fugaz = Fugaz_One({
   weight: ["400"],
 });
 
-const Calender = (props: any) => {
-  const { demo, completeData, handleUpdate } = props;
+type MoodData = {
+  [year: number]: {
+    [month: number]: {
+      [day: number]: string;
+    };
+  };
+};
+
+interface CalendarProps {
+  demo: boolean;
+  completeData: MoodData | null;
+  handleUpdate?: (mood: string | number) => Promise<void>;
+}
+
+const Calender = (props: CalendarProps) => {
+  const { demo, completeData } = props;
 
   const months = {
     January: "Jan",
@@ -60,7 +74,7 @@ const Calender = (props: any) => {
   const daysToDisplay = firstDayOfMonth + daysInMonth;
   const numRows = Math.floor(daysToDisplay / 7) + (daysToDisplay % 7 ? 1 : 0);
 
-  const increaseVal = (val: any) => {
+  const increaseVal = (val: number) => {
     if (numericMonth + val < 0) {
       //
       setSelectedYear((curr) => curr - 1);
@@ -105,26 +119,31 @@ const Calender = (props: any) => {
           return (
             <div key={rowIndex} className=" gap-1 grid grid-cols-7">
               {dayList.map((dayOfWeek, dayOfWeekIndex) => {
-                let dayIndex =
+                const dayIndex =
                   rowIndex * 7 + dayOfWeekIndex - (firstDayOfMonth - 1);
 
-                let dayDisplay =
+                const dayDisplay =
                   dayIndex > daysInMonth
                     ? false
                     : rows === 0 && dayOfWeekIndex < firstDayOfMonth
                     ? false
                     : true;
 
-                let isToday = dayIndex === now.getDate();
+                const isToday = dayIndex === now.getDate();
 
                 if (!dayDisplay) {
                   return <div key={dayOfWeekIndex} className="bg-white " />;
                 }
 
-                let color = demo
+                const moodValue =
+                  data && dayIndex in data
+                    ? parseInt(data[dayIndex])
+                    : undefined;
+
+                const color = demo
                   ? gradients.indigo[baseRating[dayIndex]]
-                  : data && dayIndex in data
-                  ? gradients.indigo[data[dayIndex]]
+                  : moodValue
+                  ? gradients.indigo[moodValue]
                   : "white";
 
                 return (

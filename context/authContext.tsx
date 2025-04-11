@@ -61,10 +61,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     setUserDataObject(null);
     setCurrentUser(null);
-    return signOut;
+    await signOut(auth);
   };
 
   useEffect(() => {
